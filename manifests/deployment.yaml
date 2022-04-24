@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: otus-1-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: otus-1-app
+  template:
+    metadata:
+      labels:
+        app: otus-1-app
+    spec:
+      containers:
+        - name: otus-1
+          image: daylight777/otus-1:latest
+          ports:
+            - name: web
+              containerPort: 3000
+          readinessProbe:
+            httpGet:
+              scheme: HTTP
+              path: /health
+              port: 3000
+            initialDelaySeconds: 10
+            periodSeconds: 5
